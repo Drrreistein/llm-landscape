@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>大语言模型行业观察笔记</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.85;
+    color: #222;
+    background: #fff;
+  }
+  h1 { font-size: 1.9em; font-weight: 600; margin: 0 0 .6em; line-height: 1.35; }
+  h2 { font-size: 1.32em; font-weight: 600; margin: 2.2em 0 .7em; padding-bottom: .25em; border-bottom: 1px solid #e8e8e8; }
+  h3 { font-size: 1.1em; font-weight: 600; margin: 1.6em 0 .5em; }
+  p { margin: .9em 0; }
+  blockquote {
+    margin: 1.2em 0; padding: .2em 1em;
+    border-left: 3px solid #ddd; color: #555;
+  }
+  blockquote p { margin: .5em 0; }
+  ul, ol { padding-left: 1.4em; margin: .9em 0; }
+  li { margin: .35em 0; }
+  table {
+    border-collapse: collapse; width: 100%;
+    margin: 1.3em 0; font-size: .93em;
+    display: block; overflow-x: auto;
+  }
+  th, td { border: 1px solid #e2e2e2; padding: 7px 10px; text-align: left; vertical-align: top; }
+  th { background: #fafafa; font-weight: 600; white-space: nowrap; }
+  strong { font-weight: 600; }
+  hr { border: 0; border-top: 1px solid #e8e8e8; margin: 2.4em 0; }
+  a { color: #1a5fb4; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code { background: #f5f5f5; padding: .1em .35em; border-radius: 3px; font-size: .9em; }
+</style>
+</head>
+<body>
+<h1>大语言模型行业观察笔记</h1>
+<blockquote>
+<p>个人整理的行业笔记，不是正式研报。数据来自公开信息和各机构报告，这个行业的口径特别乱，同一件事经常能查出三个不同的数字，看法难免有偏差，仅供参考。数据截至 2026 年 10 月。</p>
+</blockquote>
+<h2>一、先说结论</h2>
+<p>2026 年的大模型行业，有点像 2000 年前后的互联网：用户和收入都在高速增长，但没人说得清最后谁赚钱。我自己的判断，大致是这几条：</p>
+<p><strong>1. "谁第一"这件事，完全取决于你问谁、用什么口径。</strong> 按 Counterpoint 的 2026 年一季度收入份额，Anthropic 31.4%、OpenAI 29.0%；按 Menlo 的企业 LLM 支出调查，Anthropic 40%、OpenAI 27%；但另一份按 API 收入的估算又说 OpenAI 占 55%。三个结论都有人背书，差别在"算不算 C 端订阅""算不算云捆绑""算不算关联交易"。所以看到"某家份额第一"的标题，先问口径。</p>
+<p><strong>2. 收入在涨，单价在崩。</strong> 2026 年 8 月出现了一个标志性变化：token 调用量继续涨，但美元收入增速明显放缓。高盛的说法是，过去两年"更多 token 等于更多收入"的假设第一次被打破。原因有三个：供给端打价格战、企业开始做成本治理、大企业自建推理集群把流量从公有 API 剥离（这部分只耗算力，不产生 API 收入）。</p>
+<p><strong>3. 护城河正在从"模型能力"转向"分发、上下文和记忆"。</strong> 当模型能力差距缩小、价格快速趋同，决定胜负的就不再是榜单分数，而是你有没有入口（Office、搜索、社交、手机）、有没有用户的长期上下文、能不能嵌进企业流程。</p>
+<p><strong>4. 资本开支是这轮最大的风险敞口。</strong> 前五大 AI 公司 2026 年的 AI 基建支出合计超过 3,000 亿美元；Anthropic 在招股书里披露，已承诺未来在云服务和算力上支出 5,180 亿美元。这些钱能不能靠推理收入收回来，目前还没有被验证。</p>
+<p><strong>5. 企业用起来了，但回报没跟上。</strong> 德勤中国和港大的调查显示，2026 年进入生产部署的企业占比从 56.0% 升到 64.4%，但同时有 48.5% 的企业说 AI 项目实际回报低于预期，44.4% 根本算不清 ROI。这个落差，是 2026 年底到 2027 年续约季最大的变数。</p>
+<p><strong>6. 这一轮最确定的受益者可能是应用层，最不确定的是基础模型层。</strong> 模型越便宜，应用越容易赚钱；但模型厂商自己在打价格战、扛资本开支。这个结构有点像当年的云计算：卖算力的赚辛苦钱，用算力的做出高毛利生意。</p>
+<p>支撑上面几条的事实：</p>
+<ul>
+<li><strong>规模</strong>：2026 年一季度全球大模型月活用户超过 38 亿，单季收入约 207 亿美元，折年约 830 亿美元。</li>
+<li><strong>集中度</strong>：收入端前四家（Anthropic、OpenAI、Google、Microsoft）合计约 80%。但用户端是另一幅图景：Meta 10 亿月活、OpenAI 9 亿、Google 7.5 亿，而 Anthropic 只有 6,500 万。</li>
+<li><strong>单用户价值差异极大</strong>：Anthropic 月均每用户收入 33.3 美元，Microsoft 5.0，OpenAI 2.2，Google 1.1，Meta 和字节只有 0.1 甚至接近 0。做"全民平台"和做"高端专业市场"，是两种完全不同的生意。</li>
+<li><strong>编程是第一个跑通的场景</strong>：Claude Code 的使用率从 2025 年初的 3% 涨到 2026 年中的 39%；90% 的职业开发者每周至少用一次 AI 编程代理，68% 每天用。</li>
+<li><strong>价格</strong>：2024 年初 GPT-4 级别的价格大约是每千输入 token 0.03 美元，2026 年已经降到 0.01 美元以下；DeepSeek V4 Flash 的定价是每百万 token 0.098/0.197 美元，和 2024 年的 Claude Sonnet（3/15 美元）比，差了大约 30 倍。</li>
+</ul>
+<h3>我相对关注和回避的方向</h3>
+<p>下面只是个人研究记录，不构成任何投资建议。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">方向</th>
+<th style="text-align: left;">代表</th>
+<th style="text-align: left;">大致逻辑</th>
+<th style="text-align: left;">我担心的点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">关注</td>
+<td style="text-align: left;">应用层（编程、客服、垂直 SaaS）</td>
+<td style="text-align: left;">模型降价直接改善毛利，且客户为结果付费</td>
+<td style="text-align: left;">被模型厂商向上吞并；同质化</td>
+</tr>
+<tr>
+<td style="text-align: left;">关注</td>
+<td style="text-align: left;">算力与基础设施（芯片、云、电力）</td>
+<td style="text-align: left;">资本开支确定性最高，订单能见度长</td>
+<td style="text-align: left;">周期性强；回报率被质疑</td>
+</tr>
+<tr>
+<td style="text-align: left;">观察</td>
+<td style="text-align: left;">Anthropic</td>
+<td style="text-align: left;">企业支出份额第一，编程场景强，单用户价值最高</td>
+<td style="text-align: left;">估值极高；算力承诺极重</td>
+</tr>
+<tr>
+<td style="text-align: left;">观察</td>
+<td style="text-align: left;">OpenAI</td>
+<td style="text-align: left;">用户规模最大，C 端入口强，生态最全</td>
+<td style="text-align: left;">单用户价值低；亏损和资本开支</td>
+</tr>
+<tr>
+<td style="text-align: left;">观察</td>
+<td style="text-align: left;">Google</td>
+<td style="text-align: left;">自有 TPU、分发入口（搜索/安卓/Workspace）最全</td>
+<td style="text-align: left;">收入被捆绑，难单独估值</td>
+</tr>
+<tr>
+<td style="text-align: left;">观察</td>
+<td style="text-align: left;">国产模型（DeepSeek、通义、豆包、智谱、MiniMax、Kimi）</td>
+<td style="text-align: left;">开源生态活跃，价格优势明显，出海加速</td>
+<td style="text-align: left;">商业化能力弱于技术声量</td>
+</tr>
+<tr>
+<td style="text-align: left;">回避</td>
+<td style="text-align: left;">只有榜单分数、没有分发和场景的模型公司</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">回避</td>
+<td style="text-align: left;">靠"参数量"和"融资额"讲故事、续约率说不清的标的</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p>主要风险是：资本开支回报不匹配；价格战持续；模型能力商品化；监管收紧；一次重大安全或版权事件改变行业预期。</p>
+<h2>二、规模数字，先看清口径</h2>
+<p>这个行业最容易被误导的地方，是同一件事有太多"正确"的数字。</p>
+<h3>同一个"份额"，三个答案</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">来源</th>
+<th style="text-align: left;">口径</th>
+<th style="text-align: left;">结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Counterpoint（2026 Q1）</td>
+<td style="text-align: left;">全球大模型厂商收入份额</td>
+<td style="text-align: left;">Anthropic 31.4%，OpenAI 29.0%，Google 12.1%，Microsoft 7.2%</td>
+</tr>
+<tr>
+<td style="text-align: left;">Menlo Ventures（2025 年 12 月）</td>
+<td style="text-align: left;">企业 LLM 支出份额</td>
+<td style="text-align: left;">Anthropic 40%，OpenAI 27%，Google 21%</td>
+</tr>
+<tr>
+<td style="text-align: left;">某独立估算（2026 年 5 月）</td>
+<td style="text-align: left;">API 收入份额</td>
+<td style="text-align: left;">OpenAI 约 55%，Anthropic 约 20%，Google API 约 12%</td>
+</tr>
+</tbody>
+</table>
+<p>三份数据不矛盾，只是问的问题不同：第一份算的是"所有收入"，第二份只算"企业支出"，第三份只算"API"。如果一家公司 C 端订阅很强、企业端一般，它在第一份里高、第二份里低；反过来也一样。</p>
+<h3>ARR 和收入，也不是一回事</h3>
+<ul>
+<li>有报道引用 The Information 的数据，说 OpenAI 2026 年初的年化收入（ARR）超过 34 亿美元。</li>
+<li>但 SemiAnalysis 2026 年 6 月的测算是，Anthropic 和 OpenAI 的 ARR 分别约 620 亿美元和 435 亿美元。</li>
+<li>Anthropic 自己提交的 S-1 显示，2026 年上半年实际营收 162.86 亿美元。</li>
+</ul>
+<p>34 亿和 435 亿差了十倍以上。原因可能是统计范围（只算 API？还是含 C 端订阅？）、时间点、以及"年化"的算法（最近一个月乘 12，还是最近一季度乘 4）。这不是谁造假，是口径没统一。所以看到 ARR，最好同时看"实际确认收入"。</p>
+<h3>用户数不等于收入</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">厂商</th>
+<th style="text-align: left;">月活（百万，2026 Q1）</th>
+<th style="text-align: left;">月均每用户收入（美元）</th>
+<th style="text-align: left;">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Meta</td>
+<td style="text-align: left;">1,000</td>
+<td style="text-align: left;">约 0.1</td>
+<td style="text-align: left;">免费为主，靠广告间接变现</td>
+</tr>
+<tr>
+<td style="text-align: left;">OpenAI</td>
+<td style="text-align: left;">900</td>
+<td style="text-align: left;">2.2</td>
+<td style="text-align: left;">全民平台，付费率低但基数大</td>
+</tr>
+<tr>
+<td style="text-align: left;">Google</td>
+<td style="text-align: left;">750</td>
+<td style="text-align: left;">1.1</td>
+<td style="text-align: left;">大量用户来自搜索/Workspace 免费入口</td>
+</tr>
+<tr>
+<td style="text-align: left;">字节（豆包）</td>
+<td style="text-align: left;">300</td>
+<td style="text-align: left;">接近 0</td>
+<td style="text-align: left;">国内免费为主</td>
+</tr>
+<tr>
+<td style="text-align: left;">阿里（通义）</td>
+<td style="text-align: left;">300</td>
+<td style="text-align: left;">0.67</td>
+<td style="text-align: left;">云捆绑</td>
+</tr>
+<tr>
+<td style="text-align: left;">百度（文心）</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">1.3</td>
+<td style="text-align: left;">转向付费企业用户</td>
+</tr>
+<tr>
+<td style="text-align: left;">DeepSeek</td>
+<td style="text-align: left;">140</td>
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">开源+低价，几乎不靠订阅</td>
+</tr>
+<tr>
+<td style="text-align: left;">腾讯（元宝）</td>
+<td style="text-align: left;">114</td>
+<td style="text-align: left;">2.9</td>
+<td style="text-align: left;">社交分发</td>
+</tr>
+<tr>
+<td style="text-align: left;">Microsoft</td>
+<td style="text-align: left;">100</td>
+<td style="text-align: left;">5.0</td>
+<td style="text-align: left;">企业 Copilot 订阅</td>
+</tr>
+<tr>
+<td style="text-align: left;">Anthropic</td>
+<td style="text-align: left;">65</td>
+<td style="text-align: left;">33.3</td>
+<td style="text-align: left;">高端专业市场，7.3% 用户订 100 美元以上套餐</td>
+</tr>
+</tbody>
+</table>
+<p>这张表比份额表更有信息量：Anthropic 用 6,500 万用户做出了 31.4% 的收入，OpenAI 用 9 亿用户做出 29.0%。一个是"少而贵"，一个是"多而便宜"。哪种更可持续，取决于企业付费能不能守住。</p>
+<h3>市场规模</h3>
+<p>2026 年一季度全球大模型收入约 207 亿美元，年化约 830 亿美元。这个数只算"模型层收入"（订阅+API），不含云资源、不含应用层收入、不含芯片。如果把这些都算进去，"AI 产业"是万亿级；但那是另一个口径。</p>
+<p>讨论"市场多大"时，我一般会先问三句：算不算应用？算不算云？算不算硬件？三个都算，数字能差十倍。</p>
+<h2>三、行业现在大概是什么样</h2>
+<h3>分四层看</h3>
+<ul>
+<li><strong>基础模型层</strong>：前沿闭源（OpenAI、Anthropic、Google、xAI）、开源权重（Meta Llama、DeepSeek、Qwen、Kimi、MiniMax、智谱）、垂直模型（法律、医疗、金融）。</li>
+<li><strong>云与算力层</strong>：英伟达、AMD、自研 ASIC（TPU、Trainium）、云厂商、数据中心和电力。</li>
+<li><strong>中间层</strong>：推理服务、模型路由、向量数据库、Agent 框架、评测与安全。</li>
+<li><strong>应用层</strong>：编程（Cursor、Claude Code、Copilot）、客服、知识库、垂直 SaaS、消费级应用。</li>
+</ul>
+<p>利润分布很不均匀：算力层赚确定的钱但周期性强，模型层收入高但亏损大，应用层毛利高但容易同质化。</p>
+<h3>能力阶段，最好分四档</h3>
+<p>榜单分数对决策帮助不大，我一般按"能不能托管"来分：</p>
+<ul>
+<li><strong>演示可用</strong>：能跑通 demo，换个输入就不稳定。</li>
+<li><strong>辅助可用</strong>：人能兜底，比如写代码补全、写初稿。现在大部分编程工具在这一档。</li>
+<li><strong>流程可用</strong>：能嵌进固定流程，出错率可控，比如客服工单分类、合同要素抽取。</li>
+<li><strong>可托管</strong>：端到端负责，人不用盯，出错有兜底机制。现在很少。</li>
+</ul>
+<p>大部分企业项目停在第二、三档，但采购时的预期是按第四档谈的。这是 ROI 落差的主要来源。</p>
+<h3>需求真实性</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">场景</th>
+<th style="text-align: left;">付费意愿</th>
+<th style="text-align: left;">现状</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">编程</td>
+<td style="text-align: left;">很强</td>
+<td style="text-align: left;">第一个跑通的场景，按席位付费，续约率高</td>
+</tr>
+<tr>
+<td style="text-align: left;">客服与工单</td>
+<td style="text-align: left;">强</td>
+<td style="text-align: left;">ROI 好算，替代人工，已经在规模化</td>
+</tr>
+<tr>
+<td style="text-align: left;">知识库/RAG</td>
+<td style="text-align: left;">中</td>
+<td style="text-align: left;">项目多，但很多停在试点</td>
+</tr>
+<tr>
+<td style="text-align: left;">营销内容</td>
+<td style="text-align: left;">中</td>
+<td style="text-align: left;">单价低，同质化</td>
+</tr>
+<tr>
+<td style="text-align: left;">通用 Agent</td>
+<td style="text-align: left;">弱</td>
+<td style="text-align: left;">演示惊艳，可靠性和责任划分没解决</td>
+</tr>
+<tr>
+<td style="text-align: left;">消费级聊天</td>
+<td style="text-align: left;">弱</td>
+<td style="text-align: left;">用户多，付费率低，靠广告或捆绑</td>
+</tr>
+<tr>
+<td style="text-align: left;">科学研究</td>
+<td style="text-align: left;">中</td>
+<td style="text-align: left;">高价值但小众</td>
+</tr>
+</tbody>
+</table>
+<p>一个可参考的数字：Anthropic 只有 7.3% 的用户订了 100 美元以上的套餐，但这部分贡献了很大比例的收入。说明"愿意为生产力付高价"的人是小众，但这小众很值钱。</p>
+<h3>价格带</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">模型</th>
+<th style="text-align: left;">输入/输出（美元/百万 token）</th>
+<th style="text-align: left;">定位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">DeepSeek V4 Flash</td>
+<td style="text-align: left;">0.098 / 0.197</td>
+<td style="text-align: left;">极致低价，走量</td>
+</tr>
+<tr>
+<td style="text-align: left;">Llama 4 Scout（第三方托管）</td>
+<td style="text-align: left;">0.08 / 0.30</td>
+<td style="text-align: left;">开源权重，自托管更便宜</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mistral Small 4</td>
+<td style="text-align: left;">0.15 / 0.60</td>
+<td style="text-align: left;">欧洲，性价比</td>
+</tr>
+<tr>
+<td style="text-align: left;">Grok 4.1 Fast</td>
+<td style="text-align: left;">0.20 / 0.50</td>
+<td style="text-align: left;">实时/社交场景</td>
+</tr>
+<tr>
+<td style="text-align: left;">Gemini 2.5 Flash</td>
+<td style="text-align: left;">0.30 / 2.50</td>
+<td style="text-align: left;">便宜且能力不错</td>
+</tr>
+<tr>
+<td style="text-align: left;">Gemini 3.5 Flash</td>
+<td style="text-align: left;">1.50 / 9.00</td>
+<td style="text-align: left;">中端主力</td>
+</tr>
+<tr>
+<td style="text-align: left;">Gemini 3.1 Pro</td>
+<td style="text-align: left;">2.00 / 12.00</td>
+<td style="text-align: left;">高端</td>
+</tr>
+<tr>
+<td style="text-align: left;">Claude Opus 4.8</td>
+<td style="text-align: left;">5 / 25</td>
+<td style="text-align: left;">前沿推理</td>
+</tr>
+<tr>
+<td style="text-align: left;">GPT-5.5</td>
+<td style="text-align: left;">5 / 30</td>
+<td style="text-align: left;">前沿推理</td>
+</tr>
+</tbody>
+</table>
+<p>一年半前，这些低价档的价格是不可想象的；一年半后，它们大概也会显得贵。对应用层是好事，对模型层是压力。</p>
+<h3>算力：这轮真正的硬约束</h3>
+<p>2026 年出现了一个结构性变化，叫"推理翻转"：推理第一次超过训练，占到 AI 基础设施支出的 55%–70%。这意味着算力需求从"阶段性投入"变成了"持续性开支"。</p>
+<p>价格上，Blackwell 相比 Hopper 把每 token 成本降了约 3 倍，GB200 NVL72 整机方案据说能到 10 倍。但需求涨得更快，所以总支出还是在涨。</p>
+<p>一个容易被忽略的浪费：多项调研显示，企业 GPU 云支出的 35%–60% 花在了过度配置、闲置和错配的实例上。这不是技术问题，是运维问题。</p>
+<h2>四、产业链的钱落在哪</h2>
+<h3>成本结构</h3>
+<p>一个前沿模型的成本，大致分三块：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">成本项</th>
+<th style="text-align: left;">占比（大致）</th>
+<th style="text-align: left;">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">算力（训练+推理）</td>
+<td style="text-align: left;">60%–75%</td>
+<td style="text-align: left;">训练一次性、推理持续性；现在推理占比在上升</td>
+</tr>
+<tr>
+<td style="text-align: left;">人才</td>
+<td style="text-align: left;">15%–25%</td>
+<td style="text-align: left;">研究员薪酬极高，且流动性大</td>
+</tr>
+<tr>
+<td style="text-align: left;">数据与标注</td>
+<td style="text-align: left;">5%–15%</td>
+<td style="text-align: left;">高质量数据越来越贵，合成数据补位</td>
+</tr>
+</tbody>
+</table>
+<p>Anthropic 的 S-1 给了个少见的参照：2026 年上半年营收 162.86 亿美元，算力和基础设施支出近 90 亿美元，简单算下来，算力成本约占收入的一半多。这个比例说明，即便是收入增长最快的公司，也还在"用算力换收入"的阶段。</p>
+<h3>各层的毛利</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">层</th>
+<th style="text-align: left;">毛利大致水平</th>
+<th style="text-align: left;">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">芯片</td>
+<td style="text-align: left;">60%–75%</td>
+<td style="text-align: left;">英伟达最强，ASIC 略低但自有云更省</td>
+</tr>
+<tr>
+<td style="text-align: left;">云</td>
+<td style="text-align: left;">25%–40%</td>
+<td style="text-align: left;">重资产，规模效应明显</td>
+</tr>
+<tr>
+<td style="text-align: left;">基础模型 API</td>
+<td style="text-align: left;">20%–50%（波动大）</td>
+<td style="text-align: left;">价格战下被压，前沿推理稍好</td>
+</tr>
+<tr>
+<td style="text-align: left;">模型订阅</td>
+<td style="text-align: left;">60%–80%</td>
+<td style="text-align: left;">边际成本低，但要养免费用户</td>
+</tr>
+<tr>
+<td style="text-align: left;">应用/Agent</td>
+<td style="text-align: left;">50%–75%</td>
+<td style="text-align: left;">模型成本下降直接改善毛利</td>
+</tr>
+<tr>
+<td style="text-align: left;">垂直 SaaS</td>
+<td style="text-align: left;">70%–85%</td>
+<td style="text-align: left;">客户为流程付费，不按 token</td>
+</tr>
+</tbody>
+</table>
+<p>一个反直觉的点：<strong>基础模型公司的毛利，可能比应用公司低。</strong> 因为它要同时承担训练、推理和价格战，而应用公司只承担推理成本，还能挑最便宜的模型。</p>
+<h3>格局</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">环节</th>
+<th style="text-align: left;">主要玩家</th>
+<th style="text-align: left;">集中度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">前沿闭源模型</td>
+<td style="text-align: left;">OpenAI、Anthropic、Google、xAI</td>
+<td style="text-align: left;">极高，前四家占收入约 80%</td>
+</tr>
+<tr>
+<td style="text-align: left;">开源权重模型</td>
+<td style="text-align: left;">Meta、DeepSeek、Qwen、Kimi、MiniMax、智谱、小米</td>
+<td style="text-align: left;">分散，迭代快</td>
+</tr>
+<tr>
+<td style="text-align: left;">AI 芯片</td>
+<td style="text-align: left;">英伟达、AMD、Google TPU、AWS Trainium、华为昇腾</td>
+<td style="text-align: left;">英伟达主导，自研在追赶</td>
+</tr>
+<tr>
+<td style="text-align: left;">云</td>
+<td style="text-align: left;">AWS、Azure、Google Cloud、阿里云、腾讯云</td>
+<td style="text-align: left;">高</td>
+</tr>
+<tr>
+<td style="text-align: left;">推理服务/路由</td>
+<td style="text-align: left;">OpenRouter、Together、Fireworks、各家云</td>
+<td style="text-align: left;">中，价格敏感</td>
+</tr>
+<tr>
+<td style="text-align: left;">编程工具</td>
+<td style="text-align: left;">Cursor、Claude Code、GitHub Copilot、Codex</td>
+<td style="text-align: left;">高，且集中度在上升</td>
+</tr>
+<tr>
+<td style="text-align: left;">企业应用</td>
+<td style="text-align: left;">Microsoft、Salesforce、ServiceNow、垂直 SaaS</td>
+<td style="text-align: left;">中</td>
+</tr>
+<tr>
+<td style="text-align: left;">国产模型</td>
+<td style="text-align: left;">豆包、通义、DeepSeek、智谱、MiniMax、Kimi、文心</td>
+<td style="text-align: left;">分散，豆包用户领先</td>
+</tr>
+</tbody>
+</table>
+<p>中国这边有个特点：公有云市场集中度很高，IDC 数据显示阿里云占中国大模型训推公有云市场 42.2%；但模型层很分散，豆包日活超过 1 亿，通义、DeepSeek 紧随。开源调用量前六名全是中国模型（小米 MiMo-V2.5、DeepSeek V4 Flash、腾讯 HY3、MiniMax M3、智谱 GLM-5.2、DeepSeek V4 Pro），说明中国在"开源+低价"这条路上跑得很快。</p>
+<h3>壁垒打分</h3>
+<p>技术、分发、成本、生态四个维度各 1–5 分，纯主观：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">环节/玩家类型</th>
+<th style="text-align: left;">技术</th>
+<th style="text-align: left;">分发</th>
+<th style="text-align: left;">成本</th>
+<th style="text-align: left;">生态</th>
+<th style="text-align: left;">合计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">前沿闭源（OpenAI/Anthropic）</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">17</td>
+</tr>
+<tr>
+<td style="text-align: left;">超级平台（Google/Microsoft/Meta）</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">19</td>
+</tr>
+<tr>
+<td style="text-align: left;">芯片（英伟达）</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">18</td>
+</tr>
+<tr>
+<td style="text-align: left;">开源权重（DeepSeek/Qwen）</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">17</td>
+</tr>
+<tr>
+<td style="text-align: left;">云厂商</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">16</td>
+</tr>
+<tr>
+<td style="text-align: left;">编程工具</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">13</td>
+</tr>
+<tr>
+<td style="text-align: left;">垂直 SaaS</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">12</td>
+</tr>
+<tr>
+<td style="text-align: left;">通用 Agent 创业</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">9</td>
+</tr>
+</tbody>
+</table>
+<p>超级平台分数最高，因为分发和成本都占。纯模型公司技术强，但分发和成本是短板——这也解释了为什么它们要拼命做 C 端产品和编程工具。</p>
+<h2>五、技术上的几个观察</h2>
+<h3>预训练的边际在递减，后训练在崛起</h3>
+<p>2023–2024 年，大家比的是参数量、数据量、训练算力，scaling law 很管用。到 2026 年，单纯堆预训练的收益明显变小：数据快用完了，算力成本又高，榜单提升越来越难。</p>
+<p>增量主要来自后训练：强化学习、合成数据、推理链、工具调用。推理模型（test-time compute）是这两年的主线——让模型在回答前多想一会儿，用推理算力换质量。这条路线的好处是"能力可以按需付费"，坏处是推理成本上升，和降价趋势矛盾。</p>
+<h3>MoE 和效率</h3>
+<p>混合专家（MoE）现在是主流架构，用稀疏激活把"参数量"和"推理成本"解耦。结果就是模型参数越做越大（有开源模型到 3 万亿参数），但单次推理只激活一小部分。</p>
+<p>这带来一个统计上的麻烦：参数量不再能直接比较能力。看到"3 万亿参数"不用太激动，关键看激活参数和实际效果。</p>
+<h3>上下文和记忆</h3>
+<p>上下文窗口从 128K 涨到百万级，但"能塞进去"和"能用好"是两回事。长上下文里的信息遗忘、位置偏差、成本上升，都是问题。</p>
+<p>2026 年更实用的方向是"记忆"：把用户和企业的长期信息存在外部，按需检索，而不是每次都塞进 prompt。这既是技术问题，也是产品问题——谁掌握了用户的长期上下文，谁就有粘性。</p>
+<h3>Agent 是 2026 年的主线，也是最难落地的</h3>
+<p>Agent 的逻辑很顺：模型不只是回答问题，而是替你完成任务——查资料、写代码、操作软件、跑流程。</p>
+<p>但落地难点在可靠性。一个任务 20 步，每步 95% 正确，整体成功率只有 36%。企业要的是"99% 以上、出错可追溯"，现在的 Agent 还差得远。所以 2026 年真正跑起来的是"窄 Agent"：编程、客服、数据查询，任务边界清楚、有人兜底。</p>
+<h3>数据墙与合成数据</h3>
+<p>公开文本数据接近用尽，这是行业共识。接下来的数据来源：合成数据、企业私有数据、多模态数据（视频、语音）、交互数据（Agent 执行轨迹）。</p>
+<p>合成数据的风险是"模型训模型"导致退化，以及评测污染。企业私有数据是真正的护城河，但拿不到、洗不干净、涉及合规。</p>
+<h3>开源和闭源的差距在缩小</h3>
+<p>开源权重模型（DeepSeek、Qwen、Kimi、MiniMax、Llama）在多数通用任务上已经接近前沿闭源，差距主要体现在最难的推理和多模态上。开源的好处是便宜、可私有化、可微调；坏处是没人对结果负责。</p>
+<p>这个格局对闭源厂商是压力：如果开源模型"够用"，企业为什么要为前沿模型付 30 倍价钱？答案只能是"在最难的任务上明显更好"，或者"有别人没有的分发和集成"。</p>
+<h3>评测已经失真</h3>
+<p>榜单越来越不可信：训练数据污染、针对性优化、评测集泄漏。企业采购时更看重自己的私有评测集，而不是公开榜单。这也是为什么"榜单第一"越来越难转化成收入。</p>
+<h2>六、政策</h2>
+<p>监管这块，中欧走了两条完全不同的路：欧盟"先立总法、风险分级、管到模型层"，中国"管服务、管标识、备案制"。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">时间</th>
+<th style="text-align: left;">事件</th>
+<th style="text-align: left;">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">2023.08</td>
+<td style="text-align: left;">中国《生成式人工智能服务管理暂行办法》</td>
+<td style="text-align: left;">备案制、内容安全、标识要求</td>
+</tr>
+<tr>
+<td style="text-align: left;">2024.08</td>
+<td style="text-align: left;">欧盟《人工智能法》生效</td>
+<td style="text-align: left;">风险四级分类</td>
+</tr>
+<tr>
+<td style="text-align: left;">2025.02</td>
+<td style="text-align: left;">欧盟禁止性条款适用</td>
+<td style="text-align: left;">社会评分、无差别抓取等被禁</td>
+</tr>
+<tr>
+<td style="text-align: left;">2025.08</td>
+<td style="text-align: left;">欧盟通用模型义务适用</td>
+<td style="text-align: left;">模型提供者义务落地，系统性风险阈值 10^25 FLOP</td>
+</tr>
+<tr>
+<td style="text-align: left;">2025.09</td>
+<td style="text-align: left;">中国《AI 生成合成内容标识办法》</td>
+<td style="text-align: left;">显式+隐式双标识，平台和应用商店都有义务</td>
+</tr>
+<tr>
+<td style="text-align: left;">2026.05</td>
+<td style="text-align: left;">中国《智能体规范应用与创新发展实施意见》</td>
+<td style="text-align: left;">网信办、发改委、工信部联合，分类分级治理</td>
+</tr>
+<tr>
+<td style="text-align: left;">2026.07</td>
+<td style="text-align: left;">世界人工智能合作组织（WAICO）在上海成立</td>
+<td style="text-align: left;">29 个创始成员</td>
+</tr>
+<tr>
+<td style="text-align: left;">2026.08</td>
+<td style="text-align: left;">欧盟对通用模型执法权启用</td>
+<td style="text-align: left;">可对模型提供者罚款</td>
+</tr>
+</tbody>
+</table>
+<p>欧盟原定 2026 年 8 月适用的一些高风险条款被推迟：招聘、教育、执法、移民相关的高风险系统延到 2027 年 12 月，嵌入医疗器械和机械的延到 2028 年 8 月。所以 2026 年 8 月打开的是"模型层"的门，不是全部。</p>
+<p>对出海企业来说，真正的成本不在"要不要合规"，而在"从一套标准迁移到另一套标准"。内容标识这类能力，中国企业已经练过一轮；要补的是模型层的系统性风险评估、重大安全事件报告、技术文档留存。</p>
+<p>国内备案也在常态化。广东一省累计备案就到 193 款，垂直行业模型（法律、物业、家电、快消、具身智能）都进了备案轨道，"不是通用大模型所以不用备案"这个想法已经不成立了。</p>
+<h2>七、商业模式</h2>
+<h3>四种收费方式</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">模式</th>
+<th style="text-align: left;">怎么收钱</th>
+<th style="text-align: left;">毛利</th>
+<th style="text-align: left;">现状</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">API 按 token</td>
+<td style="text-align: left;">用多少收多少</td>
+<td style="text-align: left;">20%–50%</td>
+<td style="text-align: left;">主流，但价格战最狠</td>
+</tr>
+<tr>
+<td style="text-align: left;">订阅</td>
+<td style="text-align: left;">按月/按席位</td>
+<td style="text-align: left;">60%–80%</td>
+<td style="text-align: left;">C 端和编程工具主流</td>
+</tr>
+<tr>
+<td style="text-align: left;">私有化部署</td>
+<td style="text-align: left;">一次性授权+年费</td>
+<td style="text-align: left;">50%–70%</td>
+<td style="text-align: left;">金融、政务、大型企业</td>
+</tr>
+<tr>
+<td style="text-align: left;">云捆绑/广告</td>
+<td style="text-align: left;">不直接收 AI 的钱</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">大厂常用，难单独估值</td>
+</tr>
+</tbody>
+</table>
+<p>还有第五种正在出现：<strong>按任务或按结果收费</strong>。企业客户越来越不想为"token"付费，而想为"解决了一个工单""写完一个模块"付费。这个转变对应用层有利，对模型层不利——因为它把模型变成了原材料。</p>
+<h3>两把尺子：毛利和公司盈利</h3>
+<p>模型公司的毛利看着不错，但算上训练和资本开支，多数还在亏。Anthropic 上半年收入 162.86 亿美元、算力支出近 90 亿美元，还要承担几百人的研究员薪酬和未来 5,180 亿美元的算力承诺；OpenAI 的资本开支同样巨大。</p>
+<p>所以判断一家模型公司，我一般看三个数：收入增速、算力成本占收入比、续约率。前两个决定它能不能规模化成生意，第三个决定收入是不是真的。</p>
+<h3>哪些场景算清账了</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">场景</th>
+<th style="text-align: left;">能不能算清</th>
+<th style="text-align: left;">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">编程</td>
+<td style="text-align: left;">能</td>
+<td style="text-align: left;">按席位付费，替代外包和加班，ROI 直接</td>
+</tr>
+<tr>
+<td style="text-align: left;">客服</td>
+<td style="text-align: left;">能</td>
+<td style="text-align: left;">替代人工，按工单量算</td>
+</tr>
+<tr>
+<td style="text-align: left;">文档处理/合同</td>
+<td style="text-align: left;">能</td>
+<td style="text-align: left;">人力密集，错误可抽检</td>
+</tr>
+<tr>
+<td style="text-align: left;">知识库</td>
+<td style="text-align: left;">半能</td>
+<td style="text-align: left;">项目制多，难量化</td>
+</tr>
+<tr>
+<td style="text-align: left;">营销内容</td>
+<td style="text-align: left;">半能</td>
+<td style="text-align: left;">便宜，但效果难归因</td>
+</tr>
+<tr>
+<td style="text-align: left;">通用 Agent</td>
+<td style="text-align: left;">还不能</td>
+<td style="text-align: left;">可靠性不够，责任不清</td>
+</tr>
+<tr>
+<td style="text-align: left;">消费级聊天</td>
+<td style="text-align: left;">不能</td>
+<td style="text-align: left;">靠订阅和广告，ARPU 低</td>
+</tr>
+</tbody>
+</table>
+<p>这也是为什么编程成了第一个爆发场景：任务边界清楚、结果可验证、替代成本高。Claude Code 从 3% 到 39% 的使用率，基本就是这个逻辑。</p>
+<h3>什么才算真拐点</h3>
+<p>我一般看四条：</p>
+<ul>
+<li><strong>企业续约率稳定在 90% 以上</strong>，而不是靠新签撑增长。</li>
+<li><strong>算力成本占收入比降到 30% 以下</strong>，说明规模效应出来了。</li>
+<li><strong>Agent 的端到端成功率到 95% 以上</strong>，且有可追溯的兜底。</li>
+<li><strong>应用层出现年收入 10 亿美元以上的非编程品类</strong>，说明不止一个场景跑通。</li>
+</ul>
+<p>现在第一条在头部公司可能接近，第二条还差得远，第三条、第四条都还在早期。</p>
+<h2>八、真正卡住行业的是什么</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">瓶颈</th>
+<th style="text-align: left;">具体表现</th>
+<th style="text-align: left;">影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">资本开支回报</td>
+<td style="text-align: left;">3,000 亿美元级别的基建投入，推理收入能否覆盖存疑</td>
+<td style="text-align: left;">最大</td>
+</tr>
+<tr>
+<td style="text-align: left;">单位经济性</td>
+<td style="text-align: left;">价格战 + 推理成本 + 训练成本，模型层难盈利</td>
+<td style="text-align: left;">最大</td>
+</tr>
+<tr>
+<td style="text-align: left;">可靠性与责任</td>
+<td style="text-align: left;">Agent 出错谁负责，企业不敢托管关键流程</td>
+<td style="text-align: left;">大</td>
+</tr>
+<tr>
+<td style="text-align: left;">数据</td>
+<td style="text-align: left;">公开数据用尽，私有数据难拿，合成数据有退化风险</td>
+<td style="text-align: left;">大</td>
+</tr>
+<tr>
+<td style="text-align: left;">分发</td>
+<td style="text-align: left;">没有入口的模型公司，获客成本越来越高</td>
+<td style="text-align: left;">大</td>
+</tr>
+<tr>
+<td style="text-align: left;">电力与场地</td>
+<td style="text-align: left;">数据中心依赖天然气，电力和合适场地竞争激烈</td>
+<td style="text-align: left;">中偏大</td>
+</tr>
+<tr>
+<td style="text-align: left;">监管</td>
+<td style="text-align: left;">欧盟模型层义务、中国备案，出海合规成本上升</td>
+<td style="text-align: left;">中</td>
+</tr>
+</tbody>
+</table>
+<p>我的判断是：卡住这个行业的不是"模型不够聪明"，而是"算力投入和商业回报之间还没有闭合"。技术问题可以用更多算力和数据解决，经济问题不行。</p>
+<p>产能上还有个容易忽略的点：数据中心的建设周期是 2–3 年。2026 年投的钱，要到 2028 年才能真正形成供给。这中间如果需求增速放缓，就会出现阶段性过剩——到那时候，价格战会更凶。</p>
+<p>从市场结构看，模型层在通缩（价格战、商品化），应用层在扩张（成本下降、场景增加）。这和自动驾驶、具身智能是同一个规律：中间层被挤压，两端赚钱。</p>
+<h2>九、格局可能会怎么变</h2>
+<p>我大致这么看 2028 年：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">环节</th>
+<th style="text-align: left;">现在</th>
+<th style="text-align: left;">2028 年左右</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">前沿闭源模型</td>
+<td style="text-align: left;">OpenAI、Anthropic、Google 三强</td>
+<td style="text-align: left;">3–4 家，可能有一家掉队</td>
+</tr>
+<tr>
+<td style="text-align: left;">开源权重</td>
+<td style="text-align: left;">中国厂商主导调用量</td>
+<td style="text-align: left;">2–3 个主流基座，其余做微调</td>
+</tr>
+<tr>
+<td style="text-align: left;">AI 芯片</td>
+<td style="text-align: left;">英伟达主导</td>
+<td style="text-align: left;">英伟达 + 1–2 家自研 ASIC 分走三成</td>
+</tr>
+<tr>
+<td style="text-align: left;">云</td>
+<td style="text-align: left;">三家 + 中国三家</td>
+<td style="text-align: left;">格局稳定，AI 成为主要增量</td>
+</tr>
+<tr>
+<td style="text-align: left;">编程工具</td>
+<td style="text-align: left;">Cursor、Claude Code、Copilot</td>
+<td style="text-align: left;">2–3 家，可能被平台吞并</td>
+</tr>
+<tr>
+<td style="text-align: left;">企业应用</td>
+<td style="text-align: left;">Microsoft 领先</td>
+<td style="text-align: left;">平台 + 垂直并存</td>
+</tr>
+<tr>
+<td style="text-align: left;">通用 Agent</td>
+<td style="text-align: left;">创业公司混战</td>
+<td style="text-align: left;">大部分被平台吸收</td>
+</tr>
+</tbody>
+</table>
+<p>两个变量值得留意：</p>
+<p><strong>一是大厂的分发优势。</strong> Google 有搜索、安卓、Workspace，Microsoft 有 Office 和 Azure，Meta 有 30 亿人的社交。模型能力趋同后，这些入口会变成决定性优势。纯模型公司要么做出现象级产品（比如编程工具），要么被收购。</p>
+<p><strong>二是开源。</strong> 如果开源模型在 90% 的任务上都"够用"，闭源厂商的定价权会被持续压缩，只能守最难的 10%。这 10% 很值钱，但撑不起现在的估值。</p>
+<p>历史经验还是那句：技术换代时，领先者不一定活得久。2023 年的一线模型公司，到 2026 年已经换过一轮座次；2028 年大概还会再换一次。</p>
+<h2>十、机会和空间</h2>
+<p>把"故事多大"和"钱多确定"分开看，我的排序大概是：</p>
+<ol>
+<li>应用层（编程、客服、垂直流程）</li>
+<li>算力与基础设施（芯片、云、电力）</li>
+<li>中间层（推理服务、路由、评测、安全）</li>
+<li>开源生态与国产替代</li>
+<li>前沿基础模型</li>
+</ol>
+<p>这个排序和热度几乎相反：最热的是基础模型，最确定的是应用。</p>
+<p>空间上，我自己搭了个粗略模型（单位：亿美元，只算模型层+应用层，不含硬件）：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">部分</th>
+<th style="text-align: left;">2026E</th>
+<th style="text-align: left;">2028 悲观</th>
+<th style="text-align: left;">2028 基准</th>
+<th style="text-align: left;">2028 乐观</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">模型层收入（订阅+API）</td>
+<td style="text-align: left;">830</td>
+<td style="text-align: left;">1,100</td>
+<td style="text-align: left;">1,600</td>
+<td style="text-align: left;">2,200</td>
+</tr>
+<tr>
+<td style="text-align: left;">企业应用（含 Agent）</td>
+<td style="text-align: left;">350</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">1,000</td>
+<td style="text-align: left;">1,500</td>
+</tr>
+<tr>
+<td style="text-align: left;">中间层（推理/工具）</td>
+<td style="text-align: left;">80</td>
+<td style="text-align: left;">150</td>
+<td style="text-align: left;">280</td>
+<td style="text-align: left;">450</td>
+</tr>
+<tr>
+<td style="text-align: left;">合计</td>
+<td style="text-align: left;">1,260</td>
+<td style="text-align: left;">1,850</td>
+<td style="text-align: left;">2,880</td>
+<td style="text-align: left;">4,150</td>
+</tr>
+</tbody>
+</table>
+<p>分歧主要在两处：一是 token 价格继续跌，收入会不会被"量增价跌"抵消；二是企业 ROI 能不能在 2027 年续约季之前被证明。我对第二个更没把握。</p>
+<p>如果按仓位想一下（只是框架示意，不是建议）：应用层可以分散配置，挑有真实续约和毛利的；算力层确定性高但要看估值和周期位置；模型层更适合小仓位、押注少数几家，因为赢家通吃、输家归零。</p>
+<h3>我会盯的几个数</h3>
+<ul>
+<li><strong>token 用量增速 vs 美元收入增速</strong>：两者背离越大，说明价格战越凶。</li>
+<li><strong>企业续约率</strong>：2026 年底到 2027 年是集中续约期，这是最硬的验证。</li>
+<li><strong>算力成本占收入比</strong>：从 50% 往 30% 降，才算规模效应。</li>
+<li><strong>编程之外的第二增长场景</strong>：客服之后，下一个是什么。</li>
+<li><strong>开源与闭源的价差</strong>：价差缩小，闭源溢价就守不住。</li>
+<li><strong>推理占算力支出的比例</strong>：从 55%–70% 继续上升，说明应用真的在用。</li>
+</ul>
+<h2>十一、风险</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">风险</th>
+<th style="text-align: left;">怎么传导</th>
+<th style="text-align: left;">影响</th>
+<th style="text-align: left;">大致概率（未来 12 个月）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">资本开支回报不匹配</td>
+<td style="text-align: left;">3,000 亿美元基建，推理收入覆盖不了，估值系统性下修</td>
+<td style="text-align: left;">很大</td>
+<td style="text-align: left;">中偏高</td>
+</tr>
+<tr>
+<td style="text-align: left;">价格战持续</td>
+<td style="text-align: left;">token 单价继续跌，模型层收入增速跟不上用量</td>
+<td style="text-align: left;">大</td>
+<td style="text-align: left;">高</td>
+</tr>
+<tr>
+<td style="text-align: left;">模型能力商品化</td>
+<td style="text-align: left;">开源追平，闭源溢价消失</td>
+<td style="text-align: left;">大</td>
+<td style="text-align: left;">中偏高</td>
+</tr>
+<tr>
+<td style="text-align: left;">企业 ROI 不达标</td>
+<td style="text-align: left;">2027 续约季大量流失，应用层收入证伪</td>
+<td style="text-align: left;">大</td>
+<td style="text-align: left;">中偏高</td>
+</tr>
+<tr>
+<td style="text-align: left;">监管收紧</td>
+<td style="text-align: left;">欧盟执法、中国备案、版权诉讼</td>
+<td style="text-align: left;">中</td>
+<td style="text-align: left;">中</td>
+</tr>
+<tr>
+<td style="text-align: left;">重大安全事件</td>
+<td style="text-align: left;">模型被用于攻击、Agent 造成损失，引发暂停或重罚</td>
+<td style="text-align: left;">中偏大</td>
+<td style="text-align: left;">偏低</td>
+</tr>
+<tr>
+<td style="text-align: left;">电力与供应链</td>
+<td style="text-align: left;">数据中心电力不足、先进制程受限</td>
+<td style="text-align: left;">中</td>
+<td style="text-align: left;">中</td>
+</tr>
+<tr>
+<td style="text-align: left;">估值泡沫</td>
+<td style="text-align: left;">一级市场估值过高，二级市场情绪退潮</td>
+<td style="text-align: left;">大</td>
+<td style="text-align: left;">中偏高</td>
+</tr>
+</tbody>
+</table>
+<p>最需要留意的是第一条和第四条。资本开支是已经花出去的钱，ROI 是还没证明的事。如果 2027 年续约季数据不好看，整个链条（芯片—云—模型—应用）都会被重新定价。</p>
+<h2>附：主要公司数据</h2>
+<p>2026 年，粗略口径：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">公司</th>
+<th style="text-align: left;">代码</th>
+<th style="text-align: left;">定位</th>
+<th style="text-align: left;">收入/ARR</th>
+<th style="text-align: left;">月活</th>
+<th style="text-align: left;">估值</th>
+<th style="text-align: left;">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Anthropic</td>
+<td style="text-align: left;">未上市（已交 S-1）</td>
+<td style="text-align: left;">前沿模型</td>
+<td style="text-align: left;">H1 营收 162.86 亿美元；ARR 约 620 亿（SemiAnalysis）</td>
+<td style="text-align: left;">6,500 万</td>
+<td style="text-align: left;">约 9,650 亿美元</td>
+<td style="text-align: left;">企业支出份额第一，编程强</td>
+</tr>
+<tr>
+<td style="text-align: left;">OpenAI</td>
+<td style="text-align: left;">未上市</td>
+<td style="text-align: left;">前沿模型</td>
+<td style="text-align: left;">ARR 约 435 亿（SemiAnalysis）</td>
+<td style="text-align: left;">9 亿</td>
+<td style="text-align: left;">约 8,520 亿美元</td>
+<td style="text-align: left;">用户最多，C 端强</td>
+</tr>
+<tr>
+<td style="text-align: left;">Google</td>
+<td style="text-align: left;">GOOGL</td>
+<td style="text-align: left;">模型+云+入口</td>
+<td style="text-align: left;">未单独披露</td>
+<td style="text-align: left;">7.5 亿</td>
+<td style="text-align: left;">Alphabet 约 4.2 万亿市值</td>
+<td style="text-align: left;">自有 TPU，分发最全</td>
+</tr>
+<tr>
+<td style="text-align: left;">Microsoft</td>
+<td style="text-align: left;">MSFT</td>
+<td style="text-align: left;">云+应用</td>
+<td style="text-align: left;">未单独披露</td>
+<td style="text-align: left;">1 亿</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Copilot 企业订阅</td>
+</tr>
+<tr>
+<td style="text-align: left;">Meta</td>
+<td style="text-align: left;">META</td>
+<td style="text-align: left;">开源权重</td>
+<td style="text-align: left;">不直接收 API 费</td>
+<td style="text-align: left;">10 亿</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Llama 走生态</td>
+</tr>
+<tr>
+<td style="text-align: left;">xAI</td>
+<td style="text-align: left;">未上市</td>
+<td style="text-align: left;">前沿模型</td>
+<td style="text-align: left;">未披露</td>
+<td style="text-align: left;">6,600 万</td>
+<td style="text-align: left;">约 2,000 亿（据报道）</td>
+<td style="text-align: left;">绑定 X 和特斯拉</td>
+</tr>
+<tr>
+<td style="text-align: left;">字节（豆包）</td>
+<td style="text-align: left;">未上市</td>
+<td style="text-align: left;">模型+应用</td>
+<td style="text-align: left;">未披露</td>
+<td style="text-align: left;">3 亿</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">国内日活超 1 亿</td>
+</tr>
+<tr>
+<td style="text-align: left;">阿里（通义）</td>
+<td style="text-align: left;">09988.HK</td>
+<td style="text-align: left;">模型+云</td>
+<td style="text-align: left;">未单独披露</td>
+<td style="text-align: left;">3 亿</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">中国大模型公有云份额 42.2%</td>
+</tr>
+<tr>
+<td style="text-align: left;">百度（文心）</td>
+<td style="text-align: left;">09888.HK</td>
+<td style="text-align: left;">模型+云</td>
+<td style="text-align: left;">未单独披露</td>
+<td style="text-align: left;">2 亿</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">转向付费企业用户</td>
+</tr>
+<tr>
+<td style="text-align: left;">DeepSeek</td>
+<td style="text-align: left;">未上市</td>
+<td style="text-align: left;">开源模型</td>
+<td style="text-align: left;">未披露</td>
+<td style="text-align: left;">1.4 亿</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">开源调用量领先，融资约 510 亿元</td>
+</tr>
+<tr>
+<td style="text-align: left;">腾讯（元宝/HY3）</td>
+<td style="text-align: left;">00700.HK</td>
+<td style="text-align: left;">模型+社交</td>
+<td style="text-align: left;">未单独披露</td>
+<td style="text-align: left;">1.14 亿</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">社交分发</td>
+</tr>
+<tr>
+<td style="text-align: left;">智谱</td>
+<td style="text-align: left;">未上市</td>
+<td style="text-align: left;">模型</td>
+<td style="text-align: left;">未披露</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">GLM 系列，企业市场</td>
+</tr>
+<tr>
+<td style="text-align: left;">MiniMax</td>
+<td style="text-align: left;">未上市</td>
+<td style="text-align: left;">模型</td>
+<td style="text-align: left;">未披露</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">M3 系列，出海</td>
+</tr>
+<tr>
+<td style="text-align: left;">月之暗面（Kimi）</td>
+<td style="text-align: left;">未上市</td>
+<td style="text-align: left;">模型</td>
+<td style="text-align: left;">未披露</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">K3.1 Pro 开源，F 轮超 35 亿美元</td>
+</tr>
+</tbody>
+</table>
+<p>数据来自 Counterpoint、Menlo Ventures、SemiAnalysis、公司公告和公开报道，口径差异很大（尤其是"收入"是 ARR、年化还是半年确认收入），仅作粗略比较。</p>
+<p>数据来源主要是：Counterpoint Research 的全球 LLM 采用与收入快照、Menlo Ventures 的企业生成式 AI 调查、SemiAnalysis 的 ARR 测算、Anthropic 的 S-1 文件、德勤中国与香港大学的企业 AI 调查、IDC 的中国 AI 软件市场追踪、欧盟 AI 法案时间线、中国网信办及相关部门公开文件。文中的测算和排序都是我自己按公开信息估的，会和实际情况有出入。</p>
+<p>以上都是个人整理和判断，不构成任何投资建议。</p>
+</body>
+</html>
